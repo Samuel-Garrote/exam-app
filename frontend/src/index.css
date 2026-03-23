@@ -1,0 +1,202 @@
+/* ================== RESET ================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ================== BODY ================== */
+
+body {
+  font-family: Arial, sans-serif;
+  background: radial-gradient(circle at top, #1e1b4b, #020617);
+  color: #e2e8f0;
+}
+
+#root {
+  width: 100%;
+}
+
+/* ================== LAYOUT ================== */
+
+.app {
+  max-width: 950px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+}
+
+/* ================== TITULO ================== */
+
+.title {
+  font-size: 42px;
+  margin-bottom: 10px;
+  color: #ffffff;
+  text-shadow: 0 0 20px rgba(123, 47, 247, 0.4);
+}
+
+.subtitle {
+  color: #cbd5e1;
+  margin-bottom: 30px;
+  font-size: 18px;
+}
+
+/* ================== TARJETAS ================== */
+
+.question-card {
+  background: linear-gradient(
+    135deg,
+    rgba(123, 47, 247, 0.35),
+    rgba(0, 207, 255, 0.25)
+  );
+  border: 1px solid rgba(0, 207, 255, 0.4);
+  backdrop-filter: blur(12px);
+  padding: 24px;
+  border-radius: 20px;
+  margin-bottom: 22px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.question-title {
+  font-size: 24px;
+  margin-bottom: 18px;
+  color: #ffffff;
+}
+
+/* ================== OPCIONES ================== */
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.option {
+  background: linear-gradient(
+    135deg,
+    rgba(123, 47, 247, 0.4),
+    rgba(0, 207, 255, 0.3)
+  );
+  color: white;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 15px;
+}
+
+.option:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow:
+    0 0 15px rgba(123, 47, 247, 0.6),
+    0 0 25px rgba(0, 207, 255, 0.4);
+}
+
+.option:active {
+  transform: scale(0.95);
+}
+
+/* ================== SELECCION ================== */
+
+.option.selected {
+  background: linear-gradient(135deg, #7b2ff7, #00cfff);
+  box-shadow:
+    0 0 15px rgba(123, 47, 247, 0.9),
+    0 0 30px rgba(0, 207, 255, 0.6);
+}
+
+/* ================== BOTON SUBMIT ================== */
+
+.submit-btn {
+  margin-top: 25px;
+  width: 100%;
+  background: linear-gradient(135deg, #7b2ff7, #00cfff);
+  color: white;
+  border: none;
+  padding: 16px 20px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-size: 17px;
+  font-weight: bold;
+  box-shadow: 0 10px 40px rgba(123, 47, 247, 0.5);
+  transition: all 0.2s ease;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* NUEVO */
+.submit-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ================== RESULTADO ACTUAL ================== */
+
+.result-box {
+  margin-top: 30px;
+  background: linear-gradient(
+    135deg,
+    rgba(123, 47, 247, 0.25),
+    rgba(0, 207, 255, 0.2)
+  );
+  border: 1px solid rgba(0, 207, 255, 0.4);
+  backdrop-filter: blur(12px);
+  padding: 24px;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+}
+
+.result-title {
+  font-size: 28px;
+  margin-bottom: 18px;
+  color: white;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.result-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 18px;
+}
+
+.result-label {
+  font-size: 14px;
+  color: #cbd5e1;
+  margin-bottom: 8px;
+}
+
+.result-value {
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+}
+
+.result-score {
+  background: linear-gradient(135deg, #7b2ff7, #00cfff);
+}
+
+.result-score .result-label,
+.result-score .result-value {
+  color: white;
+}
+
+/* ================== HISTORIAL ================== */
+
+/* NUEVO */
+.result-box + .result-box {
+  margin-top: 20px;
+}
+
+/* NUEVO (para diferenciar historial más adelante) */
+.result-box h2 {
+  letter-spacing: 0.5px;
+}
