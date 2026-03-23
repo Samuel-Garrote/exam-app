@@ -1,27 +1,43 @@
 // @ts-ignore
 const cors = require("cors");
+const express = require("express");
+
 import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.use(express.json());
+app.use(cors());
+
+/* =========================
+    🔥 CONEXIÓN DATABASE FINAL
+========================= */
+
+// 👉 Railway (producción) usa DATABASE_URL
+// 👉 Local usa tu conexión de Docker
+
 const connectionString =
+  process.env.DATABASE_URL ||
   "postgresql://postgres@127.0.0.1:5433/examdb?schema=public";
 
 const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({ adapter });
 
-const express = require("express");
-
-const app = express();
-const PORT = 3000;
-
-app.use(express.json());
-app.use(cors());
+/* =========================
+    📚 TIPOS
+========================= */
 
 type Question = {
   title: string;
   options: string[];
   correctAnswer: number;
 };
+
+/* =========================
+    📦 DATA
+========================= */
 
 let questions: Question[] = [
   {
@@ -116,6 +132,10 @@ let questions: Question[] = [
   },
 ];
 
+/* =========================
+    🧠 LÓGICA
+========================= */
+
 function calculateResult(answers: number[]) {
   let correct = 0;
 
@@ -135,19 +155,19 @@ function calculateResult(answers: number[]) {
   };
 }
 
+/* =========================
+    🌐 ROUTES
+========================= */
+
 app.get("/", (req: any, res: any) => {
-  res.send("Server is running");
+  res.send("Server is running 🚀");
 });
 
 app.get("/questions", (req: any, res: any) => {
-  console.log("GET /questions");
-
-  const examQuestions = questions.map((question) => {
-    return {
-      title: question.title,
-      options: question.options,
-    };
-  });
+  const examQuestions = questions.map((q) => ({
+    title: q.title,
+    options: q.options,
+  }));
 
   res.json(examQuestions);
 });
@@ -172,7 +192,7 @@ app.post("/submit", async (req: any, res: any) => {
 
     res.json(savedResult);
   } catch (error) {
-    console.log(error); // 👈 clave
+    console.log(error);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -182,36 +202,11 @@ app.get("/results", async (req: any, res: any) => {
     const results = await prisma.result.findMany();
     res.json(results);
   } catch (error) {
-    console.log(error); // 👈 clave
-    res.status(500).json({ error: "Server error" });
-  }
-});
-
-app.get("/users", async (req: any, res: any) => {
-  try {
-    const users = await prisma.user.findMany();
-    res.json(users);
-  } catch (error) {
-    console.log(error); // 👈 clave
-    res.status(500).json({ error: "Server error" });
-  }
-});
-
-app.post("/users", async (req: any, res: any) => {
-  try {
-    const { name } = req.body;
-
-    const user = await prisma.user.create({
-      data: { name },
-    });
-
-    res.json(user);
-  } catch (error) {
-    console.log(error); // 👈 clave
+    console.log(error);
     res.status(500).json({ error: "Server error" });
   }
 });
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server running on port ${PORT} 🚀`);
 });
