@@ -5,29 +5,34 @@ type Question = {
   options: string[];
 };
 
+type Result = {
+  id: number;
+  correctAnswers: number;
+  totalQuestions: number;
+  score: number;
+};
+
+const API_URL = import.meta.env.VITE_API_URL || "/api";
+
 function App() {
   const [answers, setAnswers] = useState<(number | undefined)[]>([]);
   const [questions, setQuestions] = useState<Question[]>([]);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<Result | null>(null);
+  const [results, setResults] = useState<Result[]>([]);
 
-  // NUEVO
-  const [results, setResults] = useState<any[]>([]);
-
-  // NUEVO
   function loadResults() {
-    fetch("/api/results")
+    fetch(`${API_URL}/results`)
       .then((response) => response.json())
       .then((data) => setResults(data))
       .catch((error) => console.log(error));
   }
 
   useEffect(() => {
-    fetch("/api/questions")
+    fetch(`${API_URL}/questions`)
       .then((response) => response.json())
       .then((data) => setQuestions(data))
       .catch((error) => console.log(error));
 
-    // NUEVO
     loadResults();
   }, []);
 
@@ -67,7 +72,7 @@ function App() {
         className="submit-btn"
         disabled={!isComplete}
         onClick={() => {
-          fetch("/api/submit", {
+          fetch(`${API_URL}/submit`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -77,8 +82,6 @@ function App() {
             .then((res) => res.json())
             .then((data) => {
               setResult(data);
-
-              // NUEVO
               loadResults();
             })
             .catch((err) => console.log(err));
@@ -116,7 +119,6 @@ function App() {
         </div>
       )}
 
-      {/* NUEVO */}
       {results.length > 0 && (
         <div className="result-box">
           <h2 className="result-title">Previous Results</h2>
